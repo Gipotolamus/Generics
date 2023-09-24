@@ -4,9 +4,63 @@ import org.junit.jupiter.api.Test;
 import java.util.Comparator;
 
 public class TicketManagerTest {
+    @Test
+    public void sortOneTicketTest() { // находит 1 билет
+        AviaSouls manager = new AviaSouls();
+        Ticket ticket1 = new Ticket("MSK", "NSK", 8_354, 12, 13);
+        Ticket ticket2 = new Ticket("MSK", "SPB", 65_464, 13, 15);
+        Ticket ticket3 = new Ticket("MSK", "OMSK", 841, 12, 12);
+
+        manager.add(ticket1);
+        manager.add(ticket2);
+        manager.add(ticket3);
+
+        Ticket[] actual = manager.search("MSK", "NSK");
+        Ticket[] expected = {ticket1};
+
+        Assertions.assertArrayEquals(expected, actual);
+    }
 
     @Test
-    public void sortTicketTest() {
+    public void sortTwoTicketTest() { //находит несколько билетов сортируя по цене
+        AviaSouls manager = new AviaSouls();
+        Ticket ticket1 = new Ticket("MSK", "NSK", 8_354, 12, 13);
+        Ticket ticket2 = new Ticket("MSK", "SPB", 65_464, 13, 15);
+        Ticket ticket3 = new Ticket("MSK", "OMSK", 841, 12, 12);
+        Ticket ticket4 = new Ticket("MSK", "NSK", 333, 15, 17);
+
+        manager.add(ticket1);
+        manager.add(ticket2);
+        manager.add(ticket3);
+        manager.add(ticket4);
+
+        Ticket[] expected = {ticket4, ticket1};
+        Ticket[] actual = manager.search("MSK", "NSK");
+
+        Assertions.assertArrayEquals(expected, actual);
+    }
+
+    @Test
+    public void sortZeroTicketTest() { //нет подходящих результатов
+        AviaSouls manager = new AviaSouls();
+        Ticket ticket1 = new Ticket("MSK", "KRS", 8_354, 12, 13);
+        Ticket ticket2 = new Ticket("MSK", "SPB", 65_464, 13, 15);
+        Ticket ticket3 = new Ticket("MSK", "OMSK", 841, 12, 12);
+        Ticket ticket4 = new Ticket("MSK", "KMV", 333, 15, 17);
+
+        manager.add(ticket1);
+        manager.add(ticket2);
+        manager.add(ticket3);
+        manager.add(ticket4);
+
+        Ticket[] expected = {};
+        Ticket[] actual = manager.search("MSK", "NSK");
+
+        Assertions.assertArrayEquals(expected, actual);
+    }
+
+    @Test
+    public void sortTicketTest() { //Находит несколько билетов сортируя по цене
         AviaSouls manager = new AviaSouls();
         Ticket ticket1 = new Ticket("MSK", "NSK", 8_354, 12, 13);
         Ticket ticket2 = new Ticket("MSK", "SPB", 65_464, 13, 15);
@@ -33,7 +87,7 @@ public class TicketManagerTest {
     }
 
     @Test
-    public void sortTicketComparatorTest() {
+    public void sortTicketComparatorTest() { // находит несколько билетов сортируя по цене и времени
         AviaSouls manager = new AviaSouls();
         Ticket ticket1 = new Ticket("MSK", "NSK", 200, 12, 14);//2
         Ticket ticket2 = new Ticket("MSK", "SPB", 65_464, 13, 15);
